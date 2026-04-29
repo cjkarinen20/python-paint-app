@@ -20,6 +20,27 @@ class PixelApp:
                 cell.grid(column = j, row = i)
                 cell.bind('<Button-1>', self.tap_cell)
                 self.cells.append(cell)
+                
+        control_frame = Frame(self.root, height = cell_length)
+        control_frame.grid(column = 0, row = 1, sticky = (N, E, S, W))
+        
+        new_button = Button(control_frame, text = "New")
+        new_button.grid(column = 0, row = 0)
+        
+        save_button = Button(control_frame, text = "Save")
+        save_button.grid(column = 2, row = 0)
+        
+        pen_button = Button(control_frame, text = "Pen")
+        pen_button.grid(column = 8, row = 0)
+        
+        erase_button = Button(control_frame, text = "Erase")
+        erase_button.grid(column = 10, row = 0)
+        
+        selected_color_box = Frame(control_frame, borderwidth = 2, relief = "raised", bg = "white")
+        selected_color_box.grid(column = 15, row = 0)
+        
+        pick_color_button = Button(control_frame, text = "Pick Color")
+        pick_color_button.grid(column = 17, row = 0)
         
     def tap_cell(self, event):
         print("Cell Tapped")
