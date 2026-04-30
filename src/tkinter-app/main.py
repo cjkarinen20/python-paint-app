@@ -24,6 +24,7 @@ class PixelApp:
         
         # Create the color picker.
         self.color_picker = tkinter.colorchooser.Chooser(self.root)
+        self.chosen_color = None
         
         # Initialize the drawing grid.
         self.drawing_grid = Canvas(self.root)
@@ -63,8 +64,8 @@ class PixelApp:
         eraser_button.grid(column = 10, row = 0, columnspan = 2, sticky = (N, E, S, W), padx = 5, pady = 5)
         
         # Box displaying the currently selected color.
-        selected_color_box = Frame(control_bar, borderwidth = 2, relief = "raised", bg = "white")
-        selected_color_box.grid(column = 15, row = 0, columnspan = 2, sticky = (N, E, S, W), padx = 7, pady = 7)
+        self.selected_color_box = Frame(control_bar, borderwidth = 2, relief = "raised", bg = "white")
+        self.selected_color_box.grid(column = 15, row = 0, columnspan = 2, sticky = (N, E, S, W), padx = 5, pady = 8)
         
         # Button to pick a new color.
         pick_color_button = Button(control_bar, text = "Pick Color", command = self.press_pick_color_button)
@@ -98,7 +99,10 @@ class PixelApp:
     # Event method for when the "Pick Color" button is pressed.
     def press_pick_color_button(self):
         color_info = self.color_picker.show()
-        print(color_info)
+        chosen = color_info[1]
+        if chosen != None:
+            self.chosen_color = chosen
+            self.selected_color_box["bg"] = self.chosen_color
         
 root = Tk()
 PixelApp(root)
