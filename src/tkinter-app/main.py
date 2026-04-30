@@ -26,6 +26,10 @@ class PixelApp:
         self.color_picker = tkinter.colorchooser.Chooser(self.root)
         self.chosen_color = None
         
+        #--Tool-Selection-Variables--
+        self.is_pen_selected = False
+        self.is_eraser_selected = False
+        
         # Initialize the drawing grid.
         self.drawing_grid = Canvas(self.root)
         self.drawing_grid.grid(column = 0, row = 0, sticky = (N, E, S, W))
@@ -78,11 +82,22 @@ class PixelApp:
              
     # Event method for when a cell is pressed.
     def tap_cell(self, event):
-        print("Cell Tapped")
+        widget = event.widget
+        index = self.cells.index(widget)
+        selected_cell = self.cells[index]
+        if self.is_eraser_selected:
+            selected_cell["bg"] = "white"
+        if self.is_pen_selected and self.chosen_color != None:
+            selected_cell["bg"] = self.chosen_color
         
     # Event method for when "New" button is pressed. 
     def press_new_button(self):
-        print("New Button Pressed.")
+        for cell in self.cells:
+            cell["bg"] = "white"
+        self.selected_color_box["bg"] = "white"
+        self.chosen_color = None
+        self.is_pen_selected = False
+        self.is_eraser_selected = False
         
     # Event method for when the "Save" button is pressed.
     def press_save_button(self):
@@ -90,11 +105,13 @@ class PixelApp:
         
     # Event method for when the "Pen" button is pressed.
     def press_pencil_button(self):
-        print("Pencil Button Pressed.")
+        self.is_pen_selected = True
+        self.is_eraser_selected = False
         
      # Event method for when the "Erase" button is pressed.
     def press_eraser_button(self):
-        print("Erase Button Pressed.")
+        self.is_pen_selected = False
+        self.is_eraser_selected = True
         
     # Event method for when the "Pick Color" button is pressed.
     def press_pick_color_button(self):
