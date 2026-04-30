@@ -1,4 +1,12 @@
 from tkinter import *
+import os
+
+# Obtain file paths for control bar icons.
+images_dir = os.path.dirname(__file__)
+pencil_path = "./icons/pencil.png"
+eraser_path = "./icons/eraser.png"
+pencil_abs_path = os.path.join(images_dir, pencil_path)
+eraser_abs_path = os.path.join(images_dir, eraser_path)
 
 class PixelApp:
     
@@ -28,27 +36,29 @@ class PixelApp:
         control_bar.grid(column = 0, row = 1, sticky = (N, E, S, W))
         
         # Button to create a new drawing.
-        new_button = Button(control_bar, text = "New")
+        new_button = Button(control_bar, text = "New", command = self.press_new_button)
         new_button.grid(column = 0, row = 0, columnspan = 2, sticky = (N, E, S, W), padx = 5, pady = 5)
         
         # Button to save the current drawing.
-        save_button = Button(control_bar, text = "Save")
+        save_button = Button(control_bar, text = "Save", command = self.press_save_button)
         save_button.grid(column = 2, row = 0, columnspan = 2, sticky = (N, E, S, W), padx = 5, pady = 5)
         
         # Button to switch to the pen tool.
-        pen_button = Button(control_bar, text = "Pen")
-        pen_button.grid(column = 8, row = 0, columnspan = 2, sticky = (N, E, S, W), padx = 5, pady = 5)
+        self.pencil_image = PhotoImage(file = pencil_abs_path).subsample(2, 3)
+        pencil_button = Button(control_bar, text = "Pencil", image = self.pencil_image, command = self.press_pencil_button)
+        pencil_button.grid(column = 8, row = 0, columnspan = 2, sticky = (N, E, S, W), padx = 5, pady = 5)
         
         # Button to switch to the erase tool.
-        erase_button = Button(control_bar, text = "Erase")
-        erase_button.grid(column = 10, row = 0, columnspan = 2, sticky = (N, E, S, W), padx = 5, pady = 5)
+        self.eraser_image = PhotoImage(file = eraser_abs_path).subsample(2, 3)
+        eraser_button = Button(control_bar, text = "Eraser", image = self.eraser_image, command = self.press_eraser_button)
+        eraser_button.grid(column = 10, row = 0, columnspan = 2, sticky = (N, E, S, W), padx = 5, pady = 5)
         
         # Box displaying the currently selected color.
         selected_color_box = Frame(control_bar, borderwidth = 2, relief = "raised", bg = "white")
         selected_color_box.grid(column = 15, row = 0, columnspan = 2, sticky = (N, E, S, W), padx = 7, pady = 7)
         
         # Button to pick a new color.
-        pick_color_button = Button(control_bar, text = "Pick Color")
+        pick_color_button = Button(control_bar, text = "Pick Color", command = self.press_pick_color_button)
         pick_color_button.grid(column = 17, row = 0, columnspan = 3, sticky = (N, E, S, W), padx = 5, pady = 5)
         
         cols, rows = control_bar.grid_size()
@@ -60,6 +70,27 @@ class PixelApp:
     # Event method for when a cell is pressed.
     def tap_cell(self, event):
         print("Cell Tapped")
+        
+    # Event method for when "New" button is pressed. 
+    def press_new_button(self):
+        print("New Button Pressed.")
+        
+    # Event method for when the "Save" button is pressed.
+    def press_save_button(self):
+        print("Save Button Pressed.")
+        
+    # Event method for when the "Pen" button is pressed.
+    def press_pencil_button(self):
+        print("Pencil Button Pressed.")
+        
+     # Event method for when the "Erase" button is pressed.
+    def press_eraser_button(self):
+        print("Erase Button Pressed.")
+        
+    # Event method for when the "Pick Color" button is pressed.
+    def press_pick_color_button(self):
+        print("Pick Color Button Pressed.")
+        
         
 root = Tk()
 PixelApp(root)
