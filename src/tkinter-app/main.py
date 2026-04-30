@@ -1,5 +1,7 @@
 from tkinter import *
 import tkinter.colorchooser
+from PIL import ImageGrab
+from datetime import datetime
 import os
 
 # Obtain file paths for control bar icons.
@@ -101,7 +103,17 @@ class PixelApp:
         
     # Event method for when the "Save" button is pressed.
     def press_save_button(self):
-        print("Save Button Pressed.")
+        #--Current-Drawing-Dimensions--
+        x = self.root.winfo_rootx() + self.drawing_grid.winfo_x()
+        y = self.root.winfo_rootx() + self.drawing_grid.winfo_y() + 35
+        
+        #--Save-Image-Dimensions--
+        width = x + 2000
+        height = y + 1000
+        
+        #--Screenshot-Data--
+        image_name = datetime.now().strftime("%Y-%m-%d-%H-%M-%S") + ".png"
+        _ = ImageGrab.grab(bbox = (x, y, width, height)).save("image.png")
         
     # Event method for when the "Pen" button is pressed.
     def press_pencil_button(self):
