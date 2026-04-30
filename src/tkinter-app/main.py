@@ -1,4 +1,5 @@
 from tkinter import *
+import tkinter.colorchooser
 import os
 
 # Obtain file paths for control bar icons.
@@ -11,16 +12,24 @@ eraser_abs_path = os.path.join(images_dir, eraser_path)
 class PixelApp:
     
     def __init__(self, root):
+        
+        # Create the root window.
         self.root = root
         self.root.title("Pixel Art")
     
+        #--Grid-Options--  
         cell_length = 50
         grid_width = 20
         grid_height = 10
         
+        # Create the color picker.
+        self.color_picker = tkinter.colorchooser.Chooser(self.root)
+        
+        # Initialize the drawing grid.
         self.drawing_grid = Canvas(self.root)
         self.drawing_grid.grid(column = 0, row = 0, sticky = (N, E, S, W))
         
+        # Populate the display window with grid squares.
         self.cells = []
         for i in range(0, grid_height):
             for j in range(0, grid_width):
@@ -30,7 +39,7 @@ class PixelApp:
                 self.cells.append(cell)
         
         #-----Control-Panel-----
-                
+        
         # Creates the control bar frame on the bottom.
         control_bar = Frame(self.root, height = cell_length)
         control_bar.grid(column = 0, row = 1, sticky = (N, E, S, W))
@@ -65,8 +74,7 @@ class PixelApp:
         for col in range(cols):
             control_bar.columnconfigure(col, minsize = cell_length)
         control_bar.rowconfigure(0, minsize = cell_length)
-        
-        
+             
     # Event method for when a cell is pressed.
     def tap_cell(self, event):
         print("Cell Tapped")
@@ -89,8 +97,8 @@ class PixelApp:
         
     # Event method for when the "Pick Color" button is pressed.
     def press_pick_color_button(self):
-        print("Pick Color Button Pressed.")
-        
+        color_info = self.color_picker.show()
+        print(color_info)
         
 root = Tk()
 PixelApp(root)
